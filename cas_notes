@@ -1,0 +1,49 @@
+* Computer Algebra System
+    represented as a tree
+
+    arbitrary size computations
+        implement subtraction and division by hand on memory buffers
+
+    basic compute unit is a frac of integers
+        rational numbers
+        keep irrational numbers (i.e. sqrt(2)) in their form
+
+    imaginary numbers
+
+    summ/product
+        easy recursive defn
+
+    limits
+        only have one type of limit: lim(var -> \inf)
+            can be used to represent any number
+
+    simplify symbolically
+        let users define invariants
+        let users define complexity for functions / variables (new variables are the sum of their constiuents)
+        specify a timeout
+        be able to simplify eqn to "$VAR = ..."
+            by order of priority:
+                minimize occurences of $VAR
+                minmize number of terms on same side as $VAR
+
+
+WIP
+
+    have SI units? -> later
+
+    approx solve numerically
+        specify percent accuracy
+            how to make sure everything converges
+        calculate decimal from fully defined value
+        finite element method (reimann sums, input number of splits)
+            for approximating integrals
+            https://marksmath.org/visualization/RiemannError/
+        finite difference method (euler method, input size of steps)
+            for approximating derivatives
+        newton method
+            for finding zeros
+        increase value for finding inf
+
+    tensors
+        should be simple enough, just the above with more definitions
+
