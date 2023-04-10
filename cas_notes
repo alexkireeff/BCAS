@@ -26,6 +26,8 @@
                 minimize occurences of $VAR
                 minmize number of terms on same side as $VAR
 
+    how to simplify, for example, sqrt of value?
+        fn that converts to multiplication of prime factors
 
 WIP
 
