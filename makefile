@@ -1,9 +1,9 @@
-lib_files = HelloWorld.hs
+lib_files = CAS.hs
 
 compile:
 	ghc $(lib_files)
 
-interpret:
+interp:
 	ghci $(lib_files)
 
 clean:

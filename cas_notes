@@ -1,8 +1,6 @@
 * Computer Algebra System
+done
     represented as a tree
-
-    arbitrary size computations
-        implement subtraction and division by hand on memory buffers
 
     basic compute unit is a frac of integers
         rational numbers
@@ -10,13 +8,11 @@
 
     imaginary numbers
 
-    summ/product
-        easy recursive defn
-
     limits
         only have one type of limit: lim(var -> \inf)
-            can be used to represent any number
+            can be used to represent irrational constants
 
+wip
     simplify symbolically
         let users define invariants
         let users define complexity for functions / variables (new variables are the sum of their constiuents)
@@ -28,10 +24,22 @@
 
     how to simplify, for example, sqrt of value?
         fn that converts to multiplication of prime factors
+        what if we completley bypass this by only defining primes?
 
-WIP
+possibilities
+    summ/product
+        also requires us defining a varible to iterate over...
+        problem: discreteness / imaginary numbers
+            want to say to do linear interpolation, but what about inf?
+                that could work...
+                    what about integral from -\inf to \inf?
+                        breaks here :(
+                start, end, num_steps
+                start, inc, num_steps
 
     have SI units? -> later
+
+    less than, greater than
 
     approx solve numerically
         specify percent accuracy
