@@ -3,5 +3,8 @@ data Expression =
     Add Expression Expression | Mul Expression Expression | Sub Expression Expression | Div Expression Expression
     deriving Show
 
-data Equation = Equals Expression Expression
+data Equation = 
+    Equals Expression Expression
+    deriving Show
+
 
