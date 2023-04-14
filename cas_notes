@@ -14,7 +14,7 @@ done
 
 wip
     simplify symbolically
-        let users define invariants
+        let users define equations that can be used to simplify things
         let users define complexity for functions / variables (new variables are the sum of their constiuents)
         specify a timeout
         be able to simplify eqn to "$VAR = ..."
@@ -26,16 +26,17 @@ wip
         fn that converts to multiplication of prime factors
         what if we completley bypass this by only defining primes?
 
+    let users define arbitrary functions
+        with arbitrary number of arguments
+        function type with function name and list of arguments
+        but these types should have types
+        and we should have more types than subexpression?
+
 possibilities
     summ/product
-        also requires us defining a varible to iterate over...
-        problem: discreteness / imaginary numbers
-            want to say to do linear interpolation, but what about inf?
-                that could work...
-                    what about integral from -\inf to \inf?
-                        breaks here :(
-                start, end, num_steps
-                start, inc, num_steps
+        represent this as an equation
+
+    derivative/integral
 
     have SI units? -> later
 
