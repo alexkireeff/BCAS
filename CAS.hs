@@ -1,10 +1,9 @@
 data Expression = 
-    Var String | Rat Int Int | Lim | Imag |
-    Add Expression Expression | Mul Expression Expression | Sub Expression Expression | Div Expression Expression
+    Variable String | Integer Int | Limit String | Imaginary | Function String [Expression]
     deriving Show
 
 data Equation = 
-    Equals Expression Expression
+    Equal Expression Expression
     deriving Show
 
 

@@ -2,19 +2,30 @@
 done
     represented as a tree
 
-    basic compute unit is a frac of integers
-        rational numbers
-        keep irrational numbers (i.e. sqrt(2)) in their form
+    basic compute unit is an integer
+        keep other numbers in their form
 
     imaginary numbers
 
     limits
-        only have one type of limit: lim(var -> \inf)
-            can be used to represent irrational constants
+        can be used to represent irrational constants
+        lim \var -> \inf
+
+    variables
+        arbitrary strings
+
+    function type
+        function name
+        list of arguments
+        can be used with equals sign to define it in terms of functions we know
 
 wip
     simplify symbolically
-        let users define equations that can be used to simplify things
+        let users define functions that can modify subexpressions
+            randomly choose a function
+                apply it to a random subexpression
+            the functions bind to the subexpressions and do something to the subexpression
+                if it can't bind it just returns the same subexpression
         let users define complexity for functions / variables (new variables are the sum of their constiuents)
         specify a timeout
         be able to simplify eqn to "$VAR = ..."
@@ -22,25 +33,15 @@ wip
                 minimize occurences of $VAR
                 minmize number of terms on same side as $VAR
 
-    how to simplify, for example, sqrt of value?
-        fn that converts to multiplication of prime factors
-        what if we completley bypass this by only defining primes?
-
-    let users define arbitrary functions
-        with arbitrary number of arguments
-        function type with function name and list of arguments
-        but these types should have types
-        and we should have more types than subexpression?
-
 possibilities
     summ/product
-        represent this as an equation
 
     derivative/integral
 
     have SI units? -> later
 
     less than, greater than
+        how can this be used
 
     approx solve numerically
         specify percent accuracy
