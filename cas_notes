@@ -7,10 +7,6 @@ done
 
     imaginary numbers
 
-    limits
-        can be used to represent irrational constants
-        lim \var -> \inf
-
     variables
         arbitrary strings
 
@@ -21,26 +17,45 @@ done
 
 wip
     simplify symbolically
+        let users define complexity on all subunits (recursive fn)
+        specify a timeout
+
+        randomly apply rules until we get something simpler
+            save it, start from there
+
+        rules at the multiple equations level
+            outputs new set of equations
+            rules at the single equation level
+                outputs new equation
+                rules at the expression level
+                    outputs new expression
+
         let users define functions that can modify subexpressions
             randomly choose a function
-                apply it to a random subexpression
-            the functions bind to the subexpressions and do something to the subexpression
-                if it can't bind it just returns the same subexpression
-        let users define complexity for functions / variables (new variables are the sum of their constiuents)
-        specify a timeout
-        be able to simplify eqn to "$VAR = ..."
-            by order of priority:
-                minimize occurences of $VAR
-                minmize number of terms on same side as $VAR
+                randomly choose a subexpression
+                function modifies subexpression if it matches it's case
+                    else returns same subexpression
+
+        PROBLEM:
+            zero division -> concise way to output a new equation?
+            u substitution -> output a new equation
+
 
 possibilities
+    limits
+        "| Limit String "
+        can be used to represent irrational constants
+        lim \var -> \inf
+
     summ/product
 
     derivative/integral
 
-    have SI units? -> later
+    have SI units
+        units requires types
+        types mean headache
 
-    less than, greater than
+    less than, greater than, not equal to
         how can this be used
 
     approx solve numerically
@@ -58,4 +73,8 @@ possibilities
 
     tensors
         should be simple enough, just the above with more definitions
+
+    how do we modify this to do proofs too?
+        I think we have to add context to the variables?
+            maybe types?
 
