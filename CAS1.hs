@@ -3,8 +3,7 @@ data Expression =
     deriving (Show, Eq)
 
 data Equation =
-    Equal Expression Expression |
-    NotEqual Expression Expression
+    Equal Expression Expression
     deriving (Show, Eq)
 
 
@@ -73,15 +72,34 @@ expression_duals _ = Nothing
 equation_function_inverse :: Equation -> Maybe Equation
 equation_function_inverse (Equal expression1 (Function "+" [expression2, expression3])) = Just $ Equal (Function "-" [expression1, expression3]) expression2
 equation_function_inverse (Equal expression1 (Function "-" [expression2, expression3])) = Just $ Equal (Function "+" [expression1, expression3]) expression2
-equation_function_inverse (Equal expression1 expression2) = Just $ Equal (Function "-" [expression1, expression2]) (Integer 0) -- TODO switch sides?
-equation_function_inverse _ = Nothing
+equation_function_inverse (Equal expression1 expression2) = Just $ Equal (Function "-" [expression1, expression2]) (Integer 0)
+
+
 
 equation_commutive :: Equation -> Maybe Equation
 equation_commutive (Equal expression1 expression2) = Just $ Equal expression2 expression1
-equation_commutive _ = Nothing
 
--- equation_substitution :: Equation -> Equation -> Maybe Equation
--- equation_substitution
+
+
+equation_substitution = 
+    let
+        helper_expression_substitution :: (Expression -> Expression) -> Expression -> Expression
+        helper_expression_substitution (substitute) (expression) = 
+            case (expression == substitute expression, expression) of
+                (False, _) -> substitute expression
+                (True, Function function1 expression_list) -> Function function1 (map (substitute) expression_list)
+                (_, _) -> expression
+
+        equation_substitution :: Equation -> Equation -> Maybe Equation
+        equation_substitution (Equal expression1 expression2) (Equal expression3 expression4) =
+            let
+                substitute input_expression = if input_expression == expression1 then expression2 else input_expression
+            in
+                if and [expression3 == substitute expression3, expression4 == substitute expression4]
+                then Nothing
+                else Just $ Equal (substitute expression3) (substitute expression4)
+    in
+        equation_substitution
 
 
 
