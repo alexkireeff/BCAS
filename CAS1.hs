@@ -1,12 +1,4 @@
-data Expression =
-    Variable String | Integer Int | Imaginary | Function String [Expression]
-    deriving (Show, Eq)
-
-data Equation =
-    Equal Expression Expression
-    deriving (Show, Eq)
-
-
+import Types
 
 -- Expression Rules
 expression_function_definitions :: Expression -> Expression
@@ -72,7 +64,7 @@ expression_duals expression = expression
 equation_function_inverse :: Equation -> Equation
 equation_function_inverse (Equal expression1 (Function "+" [expression2, expression3])) = Equal (Function "-" [expression1, expression3]) expression2
 equation_function_inverse (Equal expression1 (Function "-" [expression2, expression3])) = Equal (Function "+" [expression1, expression3]) expression2
-equation_function_inverse (Equal expression1 expression2) = Equal (Function "-" [expression1, expression2]) (Integer 0) -- TODO this gets complicated when we want to just do multiplication
+equation_function_inverse (Equal expression1 expression2) = Equal (Function "-" [expression1, expression2]) (Integer 0) -- TODO need a diff function for this when we get multiplication and division
 
 
 
@@ -99,6 +91,8 @@ equations_substitution =
     in
         equations_substitution
 
+
+-- Modify
 -- Equations, choose 2 (without replacement)
 -- if substitution, call substitute
 -- else choose a random subexpression in equation 1
