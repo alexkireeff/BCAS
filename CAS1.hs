@@ -33,15 +33,15 @@ expression_commutive =
 
 
 -- associativity
-expression_associative = 
+expression_associative =
     let
         associative_functions = ["+"]
         expression_associative :: Expression -> Expression
-        expression_associative (Function function1 [expression1, Function function2 [expression2, expression3]]) = 
+        expression_associative (Function function1 [expression1, Function function2 [expression2, expression3]]) =
             if (and [function1 == function2, elem function1 associative_functions])
             then Function function1 [Function function1 [expression1, expression2], expression3]
             else Function function1 [expression1, Function function2 [expression2, expression3]]
-        expression_associative (Function function1 [Function function2 [expression1, expression2], expression3]) = 
+        expression_associative (Function function1 [Function function2 [expression1, expression2], expression3]) =
             if (and [function1 == function2, elem function1 associative_functions])
             then Function function1 [expression1, Function function1 [expression2, expression3]]
             else Function function1 [Function function2 [expression1, expression2], expression3]
@@ -64,7 +64,8 @@ expression_duals expression = expression
 equation_function_inverse :: Equation -> Equation
 equation_function_inverse (Equal expression1 (Function "+" [expression2, expression3])) = Equal (Function "-" [expression1, expression3]) expression2
 equation_function_inverse (Equal expression1 (Function "-" [expression2, expression3])) = Equal (Function "+" [expression1, expression3]) expression2
-equation_function_inverse (Equal expression1 expression2) = Equal (Function "-" [expression1, expression2]) (Integer 0) -- TODO need a diff function for this when we get multiplication and division
+-- TODO need a diff function for this when we get multiplication and division
+equation_function_inverse (Equal expression1 expression2) = Equal (Function "-" [expression1, expression2]) (Integer 0)
 
 
 
@@ -73,10 +74,10 @@ equation_commutive (Equal expression1 expression2) = Equal expression2 expressio
 
 
 
-equations_substitution = 
+equations_substitution =
     let
         helper_expression_substitution :: (Expression -> Expression) -> Expression -> Expression
-        helper_expression_substitution (substitute) (expression) = 
+        helper_expression_substitution (substitute) (expression) =
             case (expression == substitute expression, expression) of
                 (False, _) -> substitute expression
                 (True, Function function1 expression_list) -> Function function1 (map (substitute) expression_list)
