@@ -38,7 +38,7 @@ wip
 
         PROBLEM:
             zero division -> concise way to output a new equation?
-            u substitution -> output a new equation
+            u substitution -> output a new equation? may be more complicated than this
 
 
 possibilities
@@ -75,6 +75,5 @@ possibilities
         should be simple enough, just the above with more definitions
 
     how do we modify this to do proofs too?
-        I think we have to add context to the variables?
-            maybe types?
+        types
 
