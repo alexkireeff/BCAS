@@ -12,8 +12,8 @@
       };
     };
       mkShell {
-        buildInputs = with pkgs; [
-          haskell.compiler.native-bignum.ghcHEAD
+        buildInputs = [
+          (pkgs.haskellPackages.ghcWithPackages (self: [self.random]))
         ];
 
         shellHook = ''
