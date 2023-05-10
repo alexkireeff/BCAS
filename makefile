@@ -1,4 +1,4 @@
-lib_files = CAS.hs
+lib_files = Main.hs
 
 compile:
 	ghc $(lib_files)
