@@ -4,7 +4,9 @@ import System.Random (randomRIO)
 
 import Types
 
+-------------------------------------------------------------------------------------------------------------------------------------------------
 -- Expression Rules
+
 expression_function_definitions :: Expression -> Expression
 -- addition
 expression_function_definitions (Function "+" [Integer int1, Integer int2]) = Integer $ int1 + int2
@@ -63,51 +65,7 @@ expression_duals expression = expression
 
 
 
--- Equation Rules
--- rename from inverse idk to what tho
-equation_function_inverse :: Equation -> Equation
-equation_function_inverse (Equal expression1 (Function "+" [expression2, expression3])) = Equal (Function "-" [expression1, expression3]) expression2
-equation_function_inverse (Equal expression1 (Function "-" [expression2, expression3])) = Equal (Function "+" [expression1, expression3]) expression2
--- TODO need a diff function for this when we get multiplication and division
-equation_function_inverse (Equal expression1 expression2) = Equal (Function "-" [expression1, expression2]) (Integer 0)
 
-
-
-equation_commutive :: Equation -> Equation
-equation_commutive (Equal expression1 expression2) = Equal expression2 expression1
-
-
-
-equations_substitution =
-    let
-        helper_expression_substitution :: (Expression -> Expression) -> Expression -> Expression
-        helper_expression_substitution (substitute) (expression) =
-            case (expression == substitute expression, expression) of
-                (False, _) -> substitute expression
-                (True, Function function1 expression_list) -> Function function1 (map (substitute) expression_list)
-                (_, _) -> expression
-
-        equations_substitution :: Equation -> Equation -> Equation
-        equations_substitution (Equal expression1 expression2) (Equal expression3 expression4) =
-            let
-                substitute input_expression = if input_expression == expression1 then expression2 else input_expression
-            in
-                Equal (substitute expression3) (substitute expression4)
-    in
-        equations_substitution
-
-
-
--- Modify
--- Equations, choose 2 (without replacement)
--- if substitution, call substitute
--- else choose a random subexpression in equation 1
--- choose a random subexpression
--- apply a random function
-
-
-
--- Define the expression rules
 expression_rules :: [Expression -> Expression]
 expression_rules = [expression_function_definitions, expression_commutive, expression_associative, expression_duals]
 
@@ -165,3 +123,48 @@ replace_subexpression n new_subexpr (x:xs) =
 expression_nodes :: Expression -> Int
 expression_nodes (Function _ subexpressions) = 1 + sum (map expression_nodes subexpressions)
 expression_nodes _ = 1
+-------------------------------------------------------------------------------------------------------------------------------------------------
+-- Equation Rules
+
+-- rename from inverse idk to what tho
+equation_function_inverse :: Equation -> Equation
+equation_function_inverse (Equal expression1 (Function "+" [expression2, expression3])) = Equal (Function "-" [expression1, expression3]) expression2
+equation_function_inverse (Equal expression1 (Function "-" [expression2, expression3])) = Equal (Function "+" [expression1, expression3]) expression2
+-- TODO need a diff function for this when we get multiplication and division
+equation_function_inverse (Equal expression1 expression2) = Equal (Function "-" [expression1, expression2]) (Integer 0)
+
+
+
+equation_commutive :: Equation -> Equation
+equation_commutive (Equal expression1 expression2) = Equal expression2 expression1
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+-- Equations Rules
+equations_substitution =
+    let
+        helper_expression_substitution :: (Expression -> Expression) -> Expression -> Expression
+        helper_expression_substitution (substitute) (expression) =
+            case (expression == substitute expression, expression) of
+                (False, _) -> substitute expression
+                (True, Function function1 expression_list) -> Function function1 (map (substitute) expression_list)
+                (_, _) -> expression
+
+        equations_substitution :: Equation -> Equation -> Equation
+        equations_substitution (Equal expression1 expression2) (Equal expression3 expression4) =
+            let
+                substitute input_expression = if input_expression == expression1 then expression2 else input_expression
+            in
+                Equal (substitute expression3) (substitute expression4)
+    in
+        equations_substitution
+
+
+
+-- Modify
+-- Equations, choose 2 (without replacement)
+-- if substitution, call substitute
+-- else choose a random subexpression in equation 1
+-- choose a random subexpression DONE
+-- apply a random function DONE
