@@ -170,7 +170,7 @@ apply_random_equations_equation_rule rule (equation : equations) = do
     if (1 == random_number)
     then return $ new_equation : equations
     else return $ equation : new_equations
-    
+
 
 
 -------------------------------------------------------------------------------------------------------------------------------------------------
@@ -183,7 +183,7 @@ equations_substitution (Equal expression1 expression2) (Equal expression3 expres
                 then expression2
                 else input_expression
     in
-        Equal (substitute expression3) (substitute expression4)
+        Equal (helper_expression_substitution substitute expression3) (helper_expression_substitution substitute expression4)
 
 
 -- TODO don't let this out of the module
@@ -191,8 +191,24 @@ helper_expression_substitution :: (Expression -> Expression) -> Expression -> Ex
 helper_expression_substitution (substitute) (expression) =
     case (expression == substitute expression, expression) of
         (False, _) -> substitute expression
-        (True, Function function1 expression_list) -> Function function1 (map (substitute) expression_list)
+        (True, Function function1 expression_list) -> Function function1 (map (helper_expression_substitution substitute) expression_list)
         (_, _) -> expression
 
 
--- TODO equations_substitution random wrapper
+
+apply_random_equations_equations_rule :: (Equation -> Equation -> Equation) -> [Equation] -> IO [Equation]
+apply_random_equations_equations_rule rule equations = do
+    let n = length equations
+    i <- randomRIO (0, n-1)
+    j <- randomRIO (0, n-2)
+    let j' = if j >= i
+        then j + 1
+        else j
+    return $ substitute (i) (rule (equations !! i) (equations !! j')) (equations)
+
+
+-- TODO don't let this out of the module
+substitute :: Int -> a -> [a] -> [a]
+substitute _ _ [] = []
+substitute 0 new_value (x : xs) = new_value : xs
+substitute index new_value (x : xs) = x : substitute (index - 1) new_value xs
