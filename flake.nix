@@ -14,6 +14,7 @@
       mkShell {
         buildInputs = [
           (pkgs.haskellPackages.ghcWithPackages (self: [self.random]))
+          ormolu
         ];
 
         shellHook = ''
