@@ -162,6 +162,17 @@ equation_commutive (Equal expression1 expression2) = Equal expression2 expressio
 
 
 
+apply_random_equations_equation_rule :: (Equation -> Equation) -> [Equation] -> IO [Equation]
+apply_random_equations_equation_rule rule (equation : equations) = do
+    random_number <- randomRIO (1, length equations)
+    let new_equation = rule equation
+    new_equations <- apply_random_equations_equation_rule rule equations
+    if (1 == random_number)
+    then return $ new_equation : equations
+    else return $ equation : new_equations
+    
+
+
 -------------------------------------------------------------------------------------------------------------------------------------------------
 -- Equations Rules
 equations_substitution :: Equation -> Equation -> Equation
@@ -184,10 +195,4 @@ helper_expression_substitution (substitute) (expression) =
         (_, _) -> expression
 
 
-
--- Modify
--- Equations, choose 2 (without replacement)
--- if substitution, call substitute
--- else choose a random subexpression in equation 1
--- choose a random subexpression DONE
--- apply a random function DONE
+-- TODO equations_substitution random wrapper
