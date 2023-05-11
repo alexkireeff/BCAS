@@ -1,27 +1,25 @@
 * Computer Algebra System
 done
-    represented as a tree
+    parser
+        prefix notation
 
-    basic compute unit is an integer
-        keep other numbers in their form
+        represented as a tree
 
-    imaginary numbers
+        basic compute unit is an integer
+            keep other numbers in their form
 
-    variables
-        arbitrary strings
+        imaginary numbers
 
-    function type
-        function name
-        list of arguments
-        can be used with equals sign to define it in terms of functions we know
+        variables
+            arbitrary strings
 
-wip
+        function type
+            function name
+            list of arguments
+            can be used with equals sign to define it in terms of functions we know
+
     simplify symbolically
-        let users define complexity on all subunits (recursive fn)
-        specify a timeout
-
-        randomly apply rules until we get something simpler
-            save it, start from there
+        let programmers define complexity on all subunits (recursive fn)
 
         rules at the multiple equations level
             outputs new set of equations
@@ -30,11 +28,19 @@ wip
                 rules at the expression level
                     outputs new expression
 
-        let users define functions that can modify subexpressions
+        let programmers define functions that can modify subexpressions
             randomly choose a function
                 randomly choose a subexpression
                 function modifies subexpression if it matches it's case
                     else returns same subexpression
+
+
+wip
+    simplify symbolically
+        specify a timeout
+
+        randomly apply rules until we get something simpler
+            save it, start from there
 
         PROBLEM:
             zero division -> concise way to output a new equation?
@@ -51,7 +57,7 @@ possibilities
 
     derivative/integral
 
-    have SI units
+    have units (SI units)
         units requires types
         types mean headache
 
