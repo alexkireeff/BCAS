@@ -1,13 +1,13 @@
-module CAS1 where
+module CAS1 (modify_equations_randomly) where
 
 import System.Random (randomRIO)
 
 import Types
 
--------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
 -- Expression Rules
 
--- definitions
+-- function definitions
 expression_function_definitions :: Expression -> Expression
 expression_function_definitions (Function "+" [Integer int1, Integer int2]) = Integer $ int1 + int2
 expression_function_definitions (Function "+" [expression1, Integer 0]) = expression1
@@ -21,35 +21,33 @@ expression_function_definitions expression = expression
 
 
 
--- commutivity
+-- expression commutivity
 expression_commutive :: Expression -> Expression
 expression_commutive (Function function1 [expression1, expression2]) =
     if (elem function1 commutative_functions)
     then Function function1 [expression2, expression1]
     else Function function1 [expression1, expression2]
+    where
+        commutative_functions = ["+"]
 expression_commutive expression = expression
 
 
--- TODO don't let this out of the module
-commutative_functions = ["+"]
 
-
-
--- associativity
+-- expression associativity
 expression_associative :: Expression -> Expression
-expression_associative (Function function1 [expression1, Function function2 [expression2, expression3]]) =
-    if (and [function1 == function2, elem function1 associative_functions])
-    then Function function1 [Function function1 [expression1, expression2], expression3]
-    else Function function1 [expression1, Function function2 [expression2, expression3]]
-expression_associative (Function function1 [Function function2 [expression1, expression2], expression3]) =
-    if (and [function1 == function2, elem function1 associative_functions])
-    then Function function1 [expression1, Function function1 [expression2, expression3]]
-    else Function function1 [Function function2 [expression1, expression2], expression3]
+expression_associative (Function function1 [expression1, expression2]) =
+    case (expression1, expression2) of
+    (Function function2 [expression3, expression4], expression5) ->
+        if (and [function1 == function2, elem function1 associative_functions])
+        then Function function1 [expression3, Function function2 [expression4, expression5]]
+        else (Function function1 [expression1, expression2])
+    (expression3, Function function2 [expression4, expression5]) ->
+        if (and [function1 == function2, elem function1 associative_functions])
+        then Function function1 [Function function2 [expression3, expression4], expression5]
+        else (Function function1 [expression1, expression2])
+    where
+        associative_functions = ["+"]
 expression_associative expression = expression
-
-
--- TODO don't let this out of the module
-associative_functions = ["+"]
 
 
 
@@ -61,7 +59,7 @@ expression_duals expression = expression
 
 
 
--- apply an expression rule to a random expression in an equation
+-- apply an expression rule to a random expression in an equation list
 apply_random_equations_expression_rule :: (Expression -> Expression) -> [Equation] -> IO [Equation]
 apply_random_equations_expression_rule rule (equation : equations) = do
     let eqns_num_nodes = equations_num_nodes equations
@@ -101,7 +99,6 @@ apply_random_expression_expression_rule rule (Function function subexpressions) 
 apply_random_expression_expression_rule rule expression = return $ rule expression
 
 
--- TODO don't let this out of the module
 get_subexpression :: Int -> [Expression] -> Expression
 get_subexpression _ [] = error "Index out of range"
 get_subexpression 0 (x : _) = x
@@ -115,7 +112,6 @@ get_subexpression n (x : xs) =
     else get_subexpression next_index xs
 
 
--- TODO don't let this out of the module
 replace_subexpression :: Int -> Expression -> [Expression] -> [Expression]
 replace_subexpression _ _ [] = error "Index out of range"
 replace_subexpression 0 new_subexpr (_ : xs) = new_subexpr : xs
@@ -129,39 +125,43 @@ replace_subexpression n new_subexpr (x : xs) =
         else x : replace_subexpression (n - (expression_num_nodes x)) new_subexpr xs
 
 
--- TODO don't let this out of the module
 equations_num_nodes :: [Equation] -> Int
 equations_num_nodes equations = sum $ map equation_num_nodes equations
 
--- TODO don't let this out of the module
+
 equation_num_nodes :: Equation -> Int
 equation_num_nodes (Equal expression1 expression2) = (expression_num_nodes expression1) + (expression_num_nodes expression2)
 
 
--- TODO don't let this out of the module
 expression_num_nodes :: Expression -> Int
 expression_num_nodes (Function _ subexpressions) = 1 + sum (map expression_num_nodes subexpressions)
 expression_num_nodes _ = 1
 
 
 
--------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
 -- Equation Rules
 
--- rename from inverse idk to what tho
-equation_function_inverse :: Equation -> Equation
-equation_function_inverse (Equal expression1 (Function "+" [expression2, expression3])) = Equal (Function "-" [expression1, expression3]) expression2
-equation_function_inverse (Equal expression1 (Function "-" [expression2, expression3])) = Equal (Function "+" [expression1, expression3]) expression2
--- TODO need a diff function for this when we get multiplication and division
-equation_function_inverse (Equal expression1 expression2) = Equal (Function "-" [expression1, expression2]) (Integer 0)
+-- move part of expression from one side to the other
+equation_transposition :: Equation -> Equation
+equation_transposition (Equal expression1 (Function "+" [expression2, expression3])) = Equal (Function "-" [expression1, expression3]) expression2
+equation_transposition (Equal expression1 (Function "-" [expression2, expression3])) = Equal (Function "+" [expression1, expression3]) expression2
+equation_transposition equation = equation
 
 
 
+-- move part of expression from one side to the other when there are no
+equation_empty_transposition (Equal expression1 expression2) = Equal (Function "-" [expression1, expression2]) (Integer 0)
+
+
+
+-- equation commutativity
 equation_commutive :: Equation -> Equation
 equation_commutive (Equal expression1 expression2) = Equal expression2 expression1
 
 
 
+-- apply an equation rule to a random equation in an equation list
 apply_random_equations_equation_rule :: (Equation -> Equation) -> [Equation] -> IO [Equation]
 apply_random_equations_equation_rule rule (equation : equations) = do
     random_number <- randomRIO (1, length equations)
@@ -173,8 +173,10 @@ apply_random_equations_equation_rule rule (equation : equations) = do
 
 
 
--------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
 -- Equations Rules
+
+-- substitute one half of an equation for the other half in a different equation
 equations_substitution :: Equation -> Equation -> Equation
 equations_substitution (Equal expression1 expression2) (Equal expression3 expression4) =
     let
@@ -186,7 +188,6 @@ equations_substitution (Equal expression1 expression2) (Equal expression3 expres
         Equal (helper_expression_substitution substitute expression3) (helper_expression_substitution substitute expression4)
 
 
--- TODO don't let this out of the module
 helper_expression_substitution :: (Expression -> Expression) -> Expression -> Expression
 helper_expression_substitution (substitute) (expression) =
     case (expression == substitute expression, expression) of
@@ -196,19 +197,39 @@ helper_expression_substitution (substitute) (expression) =
 
 
 
+-- apply an equation rule to a random equation in an equation list
 apply_random_equations_equations_rule :: (Equation -> Equation -> Equation) -> [Equation] -> IO [Equation]
 apply_random_equations_equations_rule rule equations = do
-    let n = length equations
-    i <- randomRIO (0, n-1)
-    j <- randomRIO (0, n-2)
+    let equations_length = length equations
+    i <- randomRIO (0, equations_length - 1) -- TODO
+    j <- randomRIO (0, equations_length - 2)
     let j' = if j >= i
         then j + 1
         else j
     return $ substitute (i) (rule (equations !! i) (equations !! j')) (equations)
 
 
--- TODO don't let this out of the module
 substitute :: Int -> a -> [a] -> [a]
 substitute _ _ [] = []
 substitute 0 new_value (x : xs) = new_value : xs
 substitute index new_value (x : xs) = x : substitute (index - 1) new_value xs
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+-- Modify Equations Randomly
+
+-- applies aribtrary rules to a list of equations
+modify_equations_randomly :: [Equation] -> IO [Equation]
+modify_equations_randomly equations = do
+    let rule_list_length = length rule_list
+    index <- randomRIO (0, rule_list_length - 1)
+    (rule_list !! index) equations
+    where
+        expression_rule_list = [expression_function_definitions, expression_commutive, expression_associative, expression_duals]
+        equation_rule_list = [equation_transposition, equation_commutive]
+        equations_rule_list = [equations_substitution]
+        rule_list =
+            (map apply_random_equations_expression_rule expression_rule_list) ++
+            (map apply_random_equations_equation_rule equation_rule_list) ++
+            (map apply_random_equations_equations_rule equations_rule_list)
