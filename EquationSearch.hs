@@ -9,7 +9,7 @@ import Types
 
 
 timeout_seconds :: Int = 10
-threads :: Integer = 10
+threads :: Integer = 20
 reset_prob_percent :: Integer = 10
 penalty_function = equations_num_nodes
 
