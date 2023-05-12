@@ -34,20 +34,20 @@ done
                 function modifies subexpression if it matches it's case
                     else returns same subexpression
 
-
-wip
-    simplify symbolically
         specify a timeout
 
         randomly apply rules until we get something simpler
             save it, start from there
 
+wip
+    None!
+
+possibilities
+    simplify symbolically
         PROBLEM:
             zero division -> concise way to output a new equation?
             u substitution -> output a new equation? may be more complicated than this
 
-
-possibilities
     limits
         "| Limit String "
         can be used to represent irrational constants
