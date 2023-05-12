@@ -1,8 +1,7 @@
 module Parser (parse) where
 
-import Types
-
 import Data.Maybe
+import Types
 
 -- prefix notation parser
 parse :: String -> Maybe [Expression]
