@@ -15,6 +15,7 @@
         buildInputs = [
           (pkgs.haskellPackages.ghcWithPackages (self: [self.random]))
           ormolu
+          gnumake
         ];
 
         shellHook = ''
