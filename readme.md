@@ -38,19 +38,19 @@ Here is an example session demonstrating the usage of the CAS:
 ```
 Basic Computer Algebra System
 Enter a command (add, remove, display, simplify, exit):
-`add`
+add
 Enter the left-hand side of the equation:
-`- a - b - a b`
+- a - b - a b
 Enter the right-hand side of the equation:
-`a`
+a
 Equation added.
 Enter a command (add, remove, display, simplify, exit):
-`simplify`
+simplify
 Simplifying equations...
 Equations simplified.
-`[0] - (a - (b - (a b))) = a`
+[0] - (a - (b - (a b))) = a
 Enter a command (add, remove, display, simplify, exit):
-`exit`
+exit
 Final Equations:
 [0] - (a - (b - (a b))) = a
 ```
