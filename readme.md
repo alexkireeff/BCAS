@@ -1,6 +1,6 @@
 # BCAS (Basic Computer Algebra System)
 
-This repository contains the source code for a basic Computer Algebra System (CAS) written in Haskell. The CAS allows users to manipulate and simplify equations using a set of predefined rules. The system currently supports addition and subtraction operations on integers, variables, and imaginary numbers. At a high level, BCAS works by randomly applying a rule to a random expression/equation/set of equations to a set of equations and then keeping the simplest version, this makes it very computationally ineffcient.
+This repository contains the source code for a Basic Computer Algebra System (BCAS) written in Haskell. BCAS allows users to manipulate and simplify equations using a set of predefined rules. The system currently supports addition and subtraction operations on integers, variables, and imaginary numbers. At a high level, BCAS works by randomly applying a rule to a random expression/equation/set of equations to a set of equations and then keeping the simplest version, making it computationally ineffcient.
 
 ## Project Structure
 
