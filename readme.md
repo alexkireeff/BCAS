@@ -29,11 +29,11 @@ To compile and run the program, follow the steps below:
 3. Navigate to the project directory: `cd BCAS`
 4. Run the following command to download the dependencies: `nix develop`
 5. Compile and Execute the program using: `make run`
-6. You will be prompted with a command-line interface (CLI) to interact with the CAS.
+6. You will be prompted with a command-line interface (CLI) to interact with BCAS.
 
 ## Example Usage
 
-Here is an example session demonstrating the usage of the CAS:
+Here is an example session demonstrating the usage of BCAS:
 
 ```
 Basic Computer Algebra System
@@ -57,6 +57,6 @@ Final Equations:
 
 ## Current Limitations
 
-The CAS is currently limited to performing addition and subtraction operations on integers, variables, and imaginary numbers. The integer limitation is intentional and greatly simplifies the CAS rules. Division is not implemented due to certain complexities and challenges. For example, if an equation a = 2 * a is given, the current version of the system could mistakenly divide both sides by a, eliminating a and giving the impression that there is no solution. This behavior poses difficulties in handling equations involving division accurately. I hope to expand on division in the future, but it requires careful consideration with how the underlying CAS mechanics work.
+BCAS is currently limited to performing addition and subtraction operations on integers, variables, and imaginary numbers. The integer limitation is intentional and greatly simplifies the CAS rules. Division is not implemented due to certain complexities and challenges. For example, if an equation a = 2 * a is given, the current version of the system could mistakenly divide both sides by a, eliminating a and giving the impression that there is no solution. This behavior poses difficulties in handling equations involving division accurately. I hope to expand on division in the future, but it requires careful consideration with how the underlying CAS mechanics work.
 
 Feel free to explore the existing codebase and contribute to enhancing the CAS by extending its capabilities to support division and other advanced algebraic operations.
