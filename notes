@@ -39,9 +39,6 @@ done
         randomly apply rules until we get something simpler
             save it, start from there
 
-wip
-    None!
-
 possibilities
     simplify symbolically
         PROBLEM:
