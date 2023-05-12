@@ -15,6 +15,7 @@ reset_prob_percent :: Integer = 10
 
 penalty_function = equations_num_nodes
 
+-- Multithreaded search for the least penalized list of Equation types
 modify_and_keep_best :: TVar [Equation] -> IO ()
 modify_and_keep_best tvar = do
   equations <- atomically $ readTVar tvar
