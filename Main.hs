@@ -1,4 +1,5 @@
 import CAS
+import Control.Concurrent.STM (newTVarIO, readTVarIO)
 import EquationSearch
 import Parser
 import Types
@@ -12,7 +13,7 @@ main = do
 
 interactWithEquations :: [Equation] -> IO [Equation]
 interactWithEquations equations = do
-  putStrLn "Enter a command (add, remove, display, exit):"
+  putStrLn "Enter a command (add, remove, display, simplify, exit):"
   input <- getLine
   case input of
     "add" -> do
@@ -46,6 +47,14 @@ interactWithEquations equations = do
       putStrLn "Equations:"
       displayEquations equations
       interactWithEquations equations
+    "simplify" -> do
+      putStrLn "Simplifying equations..."
+      tEquations <- newTVarIO equations
+      modify_and_keep_best tEquations
+      simplifiedEquations <- readTVarIO tEquations
+      putStrLn "Equations simplified."
+      displayEquations simplifiedEquations
+      interactWithEquations simplifiedEquations
     "exit" -> return equations
     _ -> do
       putStrLn "Invalid command. Please try again."
