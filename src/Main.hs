@@ -6,7 +6,7 @@ import Types
 
 main :: IO ()
 main = do
-  putStrLn "Equation Management System"
+  putStrLn "Basic Computer Algebra System"
   equations <- interactWithEquations []
   putStrLn "Final Equations:"
   displayEquations equations
