@@ -25,8 +25,8 @@ The project has the following directory structure:
 To compile and run the program, follow the steps below:
 
 1. Make sure you have Nix installed on your system.
-2. Clone this repository: `git clone https://github.com/alexkireeff/CAS.git`
-3. Navigate to the project directory: `cd CAS`
+2. Clone this repository: `git clone https://github.com/alexkireeff/BCAS.git`
+3. Navigate to the project directory: `cd BCAS`
 4. Run the following command to download the dependencies: `nix develop`
 5. Compile and Execute the program using: `make run`
 6. You will be prompted with a command-line interface (CLI) to interact with the CAS.
