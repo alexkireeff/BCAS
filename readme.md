@@ -34,23 +34,25 @@ To compile and run the program, follow the steps below:
 
 Here is an example session demonstrating the usage of the CAS:
 
-    Basic Computer Algebra System
-    Enter a command (add, remove, display, simplify, exit):
-    add
-    Enter the left-hand side of the equation:
-    - a - b - a b
-    Enter the right-hand side of the equation:
-    a
-    Equation added.
-    Enter a command (add, remove, display, simplify, exit):
-    simplify
-    Simplifying equations...
-    Equations simplified.
-    [0] - (a - (b - (a b))) = a
-    Enter a command (add, remove, display, simplify, exit):
-    exit
-    Final Equations:
-    [0] - (a - (b - (a b))) = a
+```
+Basic Computer Algebra System
+Enter a command (add, remove, display, simplify, exit):
+add
+Enter the left-hand side of the equation:
+- a - b - a b
+Enter the right-hand side of the equation:
+a
+Equation added.
+Enter a command (add, remove, display, simplify, exit):
+simplify
+Simplifying equations...
+Equations simplified.
+[0] - (a - (b - (a b))) = a
+Enter a command (add, remove, display, simplify, exit):
+exit
+Final Equations:
+[0] - (a - (b - (a b))) = a
+```
 
 ## Current Limitations
 
