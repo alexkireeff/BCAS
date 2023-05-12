@@ -11,6 +11,7 @@ main = do
   putStrLn "Final Equations:"
   displayEquations equations
 
+-- Main part of the user interface
 interactWithEquations :: [Equation] -> IO [Equation]
 interactWithEquations equations = do
   putStrLn "Enter a command (add, remove, display, simplify, exit):"
