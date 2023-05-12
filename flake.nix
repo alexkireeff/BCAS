@@ -6,10 +6,6 @@
   }: {
     devShells.x86_64-linux.default = with import nixpkgs {
       system = "x86_64-linux";
-      config = {
-        allowUnfree = true;
-        cudaSupport = true;
-      };
     };
       mkShell {
         buildInputs = [
