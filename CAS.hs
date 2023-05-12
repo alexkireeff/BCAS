@@ -41,6 +41,19 @@ expression_associative (Function function1 [expression1, expression2])
     associative_functions = ["+"]
 expression_associative expression = expression
 
+-- expression distributivity
+expression_distributive :: Expression -> Expression
+expression_distributive (Function function1 [(Function function2 [expression1, expression2]), expression3])
+  | (Function function3 [expression3, expression4]) <- expression3,
+    (expression2 == expression4),
+    (elem (function2, function1) distributive_function_pairs) =
+      Function function2 [(Function function1 [expression1, expression3]), expression4]
+  | (elem (function1, function2) distributive_function_pairs) =
+      Function function2 [(Function function1 [expression1, expression3]), (Function function1 [expression2, expression3])]
+  where
+    distributive_function_pairs = [("*", "+"), ("*", "-")]
+expression_distributive expression = expression
+
 -- add <-> sub and mul <-> div
 expression_duals :: Expression -> Expression
 expression_duals (Function "-" [expression1, expression2]) = Function "+" [expression1, Function "*" [Integer (-1), expression2]]
@@ -58,6 +71,7 @@ apply_random_equations_expression_rule rule (equation : equations) = do
   if (random_number <= eqn_num_nodes)
     then return $ new_equation : equations
     else return $ equation : new_equations
+apply_random_equations_expression_rule _ [] = return $ []
 
 -- apply an expression rule to a random expression in an equation
 apply_random_equation_expression_rule :: (Expression -> Expression) -> Equation -> IO Equation
@@ -139,6 +153,7 @@ apply_random_equations_equation_rule rule (equation : equations) = do
   if (1 == random_number)
     then return $ new_equation : equations
     else return $ equation : new_equations
+apply_random_equations_equation_rule _ [] = return $ []
 
 ------------------------------------------------------------------------------------------------------------------------
 -- Equations Rules
@@ -159,16 +174,18 @@ helper_expression_substitution substitute expression
 helper_expression_substitution _ expression = expression
 
 -- apply an equation rule to a random equation in an equation list
-apply_random_equations_equations_rule :: (Equation -> Equation -> Equation) -> [Equation] -> IO [Equation]
-apply_random_equations_equations_rule rule equations = do
-  let equations_length = length equations
-  index1 <- randomRIO (0, equations_length - 1)
-  tmp_index2 <- randomRIO (0, equations_length - 2)
-  let index2 =
-        if (tmp_index2 >= index2)
-          then tmp_index2 + 1
-          else tmp_index2
-  return $ substitute (index1) (rule (equations !! index1) (equations !! index2)) (equations)
+apply_random_equations_equations_rule :: (Equation -> Equation -> Equation) -> [Equation] -> IO [Equation] -- TODO problem if only one equation
+apply_random_equations_equations_rule rule equations
+  | (1 == length equations) = return $ equations
+  | otherwise = do
+      let equations_length = length equations
+      index1 <- randomRIO (0, equations_length - 1)
+      tmp_index2 <- randomRIO (0, equations_length - 2)
+      let index2 =
+            if (tmp_index2 >= index2)
+              then tmp_index2 + 1
+              else tmp_index2
+      return $ substitute (index1) (rule (equations !! index1) (equations !! index2)) (equations)
 
 substitute :: Int -> a -> [a] -> [a]
 substitute _ _ [] = []
@@ -185,7 +202,7 @@ modify_equations_randomly equations = do
   index <- randomRIO (0, rule_list_length - 1)
   (rule_list !! index) equations
   where
-    expression_rule_list = [expression_function_definitions, expression_commutive, expression_associative, expression_duals]
+    expression_rule_list = [expression_function_definitions, expression_commutive, expression_associative, expression_distributive, expression_duals]
     equation_rule_list = [equation_transposition, equation_empty_transposition, equation_commutive]
     equations_rule_list = [equations_substitution]
     rule_list =
