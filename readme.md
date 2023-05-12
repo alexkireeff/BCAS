@@ -5,6 +5,7 @@ Project Structure
 
 The project has the following directory structure:
 
+```
 .
 ├── flake.lock            # Lock file for Nix
 ├── flake.nix             # Nix file that stores all dependencies
@@ -16,6 +17,7 @@ The project has the following directory structure:
     ├── Main.hs           # Aggregates all other Haskell files and creates the user interface
     ├── Parser.hs         # Contains code to parse user input in prefix notation
     └── Types.hs          # Contains the type definitions for Expression and Equation
+```
 
 ## How to Run the Program
 
