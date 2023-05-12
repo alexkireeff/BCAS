@@ -7,11 +7,12 @@ import System.Random (randomRIO)
 import Types
 
 
+iterations_remaining = 1000000
 reset_every_n_iterations = 100
 penalty_function = equations_num_nodes
 
-modify_and_keep_best :: TVar [Equation] -> Integer -> IO ()
-modify_and_keep_best tvar iterations_remaining = do
+modify_and_keep_best :: TVar [Equation] -> IO ()
+modify_and_keep_best tvar = do
   equations <- atomically $ readTVar tvar
   best_penalty <- atomically $ return $ penalty_function equations
   iterate_modify equations best_penalty iterations_remaining

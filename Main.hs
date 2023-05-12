@@ -1,4 +1,5 @@
 import CAS
+import EquationSearch
 import Parser
 import Types
 
