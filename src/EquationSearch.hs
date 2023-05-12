@@ -1,4 +1,4 @@
-module EquationSearch(modify_and_keep_best) where
+module EquationSearch (modify_and_keep_best) where
 
 import CAS
 import Control.Concurrent (forkIO, killThread, threadDelay)
@@ -7,21 +7,23 @@ import Control.Monad (replicateM)
 import System.Random (randomRIO)
 import Types
 
-
 timeout_seconds :: Int = 10
+
 threads :: Integer = 10
+
 reset_prob_percent :: Integer = 10
+
 penalty_function = equations_num_nodes
 
 modify_and_keep_best :: TVar [Equation] -> IO ()
 modify_and_keep_best tvar = do
   equations <- atomically $ readTVar tvar
   best_penalty <- atomically $ return $ penalty_function equations
-  tids <- mapM (\x -> forkIO (iterate_modify equations best_penalty)) [1..threads]
+  tids <- mapM (\x -> forkIO (iterate_modify equations best_penalty)) [1 .. threads]
   threadDelay $ timeout_seconds * (10 ^ 6)
   _ <- mapM (killThread) tids
   pure ()
-  where 
+  where
     iterate_modify :: [Equation] -> Integer -> IO ()
     iterate_modify equations best_penalty = do
       modified_equations <- modify_equations_randomly equations
@@ -33,7 +35,8 @@ modify_and_keep_best tvar = do
           iterate_modify modified_equations new_penalty
         else
           if (random_number <= reset_prob_percent)
-            then do -- restart at known best set of equations
+            then do
+              -- restart at known best set of equations
               equations <- atomically $ readTVar tvar
               iterate_modify equations best_penalty
             else do
