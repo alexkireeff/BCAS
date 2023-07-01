@@ -43,7 +43,21 @@ possibilities
     simplify symbolically
         PROBLEM:
             zero division -> concise way to output a new equation?
+            a = ab
+            1 = b & a != 0
+            or
+            0 = ab - a
+            0 = a(b - 1)
+            here you could divide both sides by a
+            0 = b - 1 & a != 0
+            1 = b & a != 0
+            same solution, so we just ignore the trivial solutions and put our requirements in for the user to check post hoc, i.e. they could even rerun with
+            a = ab & a = 0
+            0 = 0 * b & a = 0
+            0 = 0 & a = 0
+            a = 0
             u substitution -> output a new equation? may be more complicated than this
+            
 
     limits
         "| Limit String "
